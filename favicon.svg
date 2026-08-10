@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Off-White to Soft Cream/Blush -->
+    <radialGradient id="daluneBg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FAF8F5" />
+      <stop offset="100%" stop-color="#F3E6E8" />
+    </radialGradient>
+
+    <!-- Luxury Rose Gold Metallic Gradient -->
+    <linearGradient id="roseGoldInterlock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DCA2AA" />
+      <stop offset="40%" stop-color="#B76E79" />
+      <stop offset="85%" stop-color="#8F4953" />
+    </linearGradient>
+
+    <!-- Subtle Cutout / Overlay Shadow for Depth -->
+    <filter id="softDepth" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#5E2B32" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Base Clean Background Card -->
+  <rect width="512" height="512" rx="120" fill="url(#daluneBg)" />
+
+  <!-- Interlocking Monogram "D" + "L" Group -->
+  <g filter="url(#softDepth)">
+    
+    <!-- Outer Main Stem & Serif for Letter "D" -->
+    <path d="M 120 115 H 175 V 397 H 120 Z" fill="url(#roseGoldInterlock)" />
+    
+    <!-- Main Outer Loop of Letter "D" -->
+    <path d="
+      M 155 115 
+      H 265 
+      C 375 115, 415 170, 415 256 
+      C 415 342, 375 397, 265 397 
+      H 155 
+      V 362 
+      H 260 
+      C 345 362, 370 315, 370 256 
+      C 370 197, 345 150, 260 150 
+      H 155 
+      Z" 
+      fill="url(#roseGoldInterlock)" />
+
+    <!-- Interlocking Letter "L" (Passes through and weaves inside 'D') -->
+    <!-- Vertical stem of L -->
+    <path d="M 220 180 H 250 V 345 H 220 Z" fill="url(#roseGoldInterlock)" />
+    
+    <!-- Classic Serif Top of L -->
+    <path d="M 205 180 H 265 V 192 H 205 Z" fill="url(#roseGoldInterlock)" />
+    
+    <!-- Elegant Horizontal Base of L (Extending smoothly out of the loop) -->
+    <path d="M 220 320 H 315 C 325 320, 330 325, 330 335 C 330 345, 325 345, 315 345 H 220 Z" fill="url(#roseGoldInterlock)" />
+
+    <!-- Visual Weave / Intersecting Accent Slice (Creates the 3D over-under effect) -->
+    <path d="M 210 240 H 260 V 270 H 210 Z" fill="url(#daluneBg)" opacity="0.95" />
+    <path d="M 220 243 H 250 V 267 H 220 Z" fill="url(#roseGoldInterlock)" />
+    
+  </g>
+</svg>
