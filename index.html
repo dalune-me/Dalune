@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth" :lang="lang" :dir="lang === 'ar' ? 'rtl' : 'ltr'" x-data="daluneApp()">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Canonical URL (استبدلي dalune.me باسم الدومين الخاص بك عند الشراء) -->
+<link rel="canonical" href="https://dalune.me/">
+
+<!-- Primary Meta Tags -->
+<title>Dalune — حلول رقمية واستشارات تقنية صُممت لإحتياجك</title>
+<meta name="title" content="Dalune — حلول رقمية واستشارات تقنية صُممت لإحتياجك">
+<meta name="description" content="منصة Dalune تقدم حلولاً ومنتجات رقمية مبتكرة، كتباً إلكترونية، واستشارات تقنية وحاسوبية متخصصة تلبي تطلعاتك وتساعدك على النجاح.">
+<meta name="keywords" content="Dalune, حلول رقمية, استشارات تقنية, كتب رقمية, خدمات حاسوبية, حقيبة المعلم, تصميم رقمي">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Arabic">
+
+<!-- Open Graph / Facebook (يتحكم في شكل الرابط عند مشاركته على واتساب وفيس بوك) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dalune.me/">
+<meta property="og:title" content="Dalune — حلول رقمية واستشارات تقنية صُممت لإحتياجك">
+<meta property="og:description" content="نقدم استشارات ومنتجات رقمية وخدمات حاسوبية عملية وفقاً لاحتياجك.">
+<meta property="og:image" content="https://dalune.me/og.svg">
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://dalune.me/">
+<meta property="twitter:title" content="Dalune — حلول رقمية واستشارات تقنية صُممت لإحتياجك">
+<meta property="twitter:description" content="نقدم استشارات ومنتجات رقمية وخدمات حاسوبية عملية وفقاً لاحتياجك.">
+<meta property="twitter:image" content="https://dalune.me/og.svg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Google Fonts: IBM Plex Sans, Tajawal, Alexandria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate On Scroll CSS (AOS) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" integrity="sha384-/rJKQnzOkEo+daG0jMjU1IwwY9unxt1NBw3Ef2fmOJ3PW/TfAg2KXVoWwMZQZtw9" crossorigin="anonymous">
+
+    <!-- Tailwind CSS (مبني مسبقًا محليًا، بدل الاعتماد على CDN) -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Alpine.js (نسخة مثبّتة + SRI) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" integrity="sha384-l8f0VcPi/M1iHPv8egOnY/15TDwqgbOR1anMIJWvU6nLRgZVLTLSaNqi/TOoT5Fh" crossorigin="anonymous"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        body {
+            font-family: 'IBM Plex Sans Arabic', 'Tajawal', 'Alexandria', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Alexandria', 'Tajawal', sans-serif;
+        }
+
+        /* Custom Fine Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #FAF8F5; }
+        .dark ::-webkit-scrollbar-track { background: #1A1817; }
+        ::-webkit-scrollbar-thumb { background: #B76E79; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9E5B65; }
+
+        /* Subtle Hover Animations */
+        .btn-luxury {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-luxury:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(183, 110, 121, 0.25);
+        }
+
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .category-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #B76E79;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        html[dir="rtl"] .category-card::after {
+            left: 0;
+            transform-origin: bottom left;
+        }
+        html[dir="rtl"] .category-card:hover::after {
+            transform-origin: bottom right;
+        }
+
+        html[dir="ltr"] .category-card::after {
+            right: 0;
+            transform-origin: bottom right;
+        }
+        html[dir="ltr"] .category-card:hover::after {
+            transform-origin: bottom left;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Border Light Effect */
+        .border-rosegold-subtle {
+            border-color: rgba(183, 110, 121, 0.2);
+        }
+    </style>
+</head>
+
+<body :class="{ 'dark bg-charcoal text-ivory': darkMode, 'bg-offwhite text-charcoal': !darkMode }"
+      class="antialiased selection:bg-blush selection:text-charcoal min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- ================= HEADER ================= -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-offwhite/80 dark:bg-charcoal/80 border-b border-rosegold-subtle transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+            
+           
+            <!-- logo -->
+<a href="#hero" class="inline-block group transition-all duration-300 transform hover:scale-105">
+    <!-- شعار الوضع الفاتح -->
+    <img src="images/logo-light-rosegold-transparent.png" 
+         class="h-8 md:h-9 w-auto object-contain filter drop-shadow-sm brightness-95 contrast-105 dark:hidden" 
+         alt="Dalune">
+
+    <!-- شعار الوضع الداكن -->
+    <img src="images/logo-dark-transparent.png" 
+         class="h-8 md:h-9 w-auto object-contain filter drop-shadow-sm brightness-110 hidden dark:block" 
+         alt="Dalune">
+</a>
+            <!-- Desktop Nav -->
+          <nav class="hidden md:flex items-center gap-8 text-sm tracking-wider uppercase font-medium">
+    <a href="#hero" class="hover:text-rosegold transition-colors duration-300" x-text="t('navHome')">الرئيسية</a>
+    <a href="#what-we-offer" class="hover:text-rosegold transition-colors duration-300" x-text="t('navWhatWeOffer')">ماذا تقدم DALUNE؟</a>
+    <a href="#books" class="hover:text-rosegold transition-colors duration-300" x-text="t('navBooks')">الكتب الرقمية</a>
+    <a href="#gallery" class="hover:text-rosegold transition-colors duration-300" x-text="t('navServices')">الخدمات</a>
+   
+    <a href="#contact" class="hover:text-rosegold transition-colors duration-300" x-text="t('navContact')">تواصل معنا</a>
+</nav>
+
+            <!-- Switchers & Toggles -->
+            <div class="flex items-center gap-3 text-xs font-medium tracking-wider">
+                <!-- Language Switcher -->
+                <button @click="toggleLang()" class="px-3 py-1.5 rounded-full border border-rosegold-subtle hover:border-rosegold hover:bg-blush/20 dark:hover:bg-rosegold/10 transition-all duration-300">
+                    <span x-text="lang === 'ar' ? 'EN' : 'العربية'"></span>
+                </button>
+
+                <!-- Dark/Light Toggle -->
+                <button @click="darkMode = !darkMode" class="p-2 rounded-full border border-rosegold-subtle hover:border-rosegold hover:bg-blush/20 dark:hover:bg-rosegold/10 transition-all duration-300" aria-label="Toggle Theme">
+                    <svg x-show="darkMode" class="w-4 h-4 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg x-show="!darkMode" class="w-4 h-4 text-warmgray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-1.5 text-charcoal dark:text-ivory">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             x-cloak @click.away="mobileMenuOpen = false" 
+             class="md:hidden border-b border-rosegold-subtle bg-ivory dark:bg-charcoal px-6 py-6 space-y-4 text-center">
+            <a @click="mobileMenuOpen = false" href="#hero" class="block py-2 text-xs uppercase tracking-widest" x-text="t('navHome')">الرئيسية</a>
+            <a @click="mobileMenuOpen = false" href="#books" class="block py-2 text-xs uppercase tracking-widest" x-text="t('navBooks')">الكتب الرقمية</a>
+            <a @click="mobileMenuOpen = false" href="#services" class="block py-2 text-xs uppercase tracking-widest" x-text="t('navServices')">الخدمات</a>
+            <a @click="mobileMenuOpen = false" href="#contact" class="block py-2 text-xs uppercase tracking-widest" x-text="t('navContact')">تواصل معنا</a>
+        </div>
+    </header>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center bg-ivory dark:bg-charcoal px-6 md:px-12 pt-24 pb-12 overflow-hidden transition-colors duration-500">
+
+    <div class="absolute -top-20 -left-20 w-96 h-96 bg-rosegold/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-rosegold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        
+        <div data-aos="fade-up" data-aos-duration="1000" class="lg:col-span-7 ltr:text-left rtl:text-right space-y-6">
+            <span class="text-xs uppercase tracking-[0.3em] text-rosegold font-semibold block"
+                x-text="t('brandName')">DALUNE</span>
+           <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-charcoal dark:text-ivory font-medium tracking-wide">
+    <span class="block mb-3" x-text="t('heroTitleLine1')">حلول رقمية صُمتت</span>
+    <span class="block" x-text="t('heroTitleLine2')">لاحتياجك</span>
+</h1>
+           
+            
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+                <a href="#books" class="px-8 py-3.5 rounded-full bg-rosegold text-white text-xs uppercase tracking-widest font-semibold hover:bg-rosegold-hover transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    <span x-text="t('btnExplore')">تصفح الخدمات</span>
+                </a>
+                <a href="#contact" class="px-8 py-3.5 rounded-full border border-rosegold/60 text-rosegold text-xs uppercase tracking-widest font-semibold hover:bg-rosegold/10 transition-all duration-300">
+                    <span x-text="t('btnContact')">تواصل معنا</span>
+                </a>
+            </div>
+
+            <!-- المميزات والإحصائيات -->
+            <div class="pt-8 flex items-center justify-between gap-4 border-t border-charcoal/10 dark:border-ivory/10 max-w-lg w-full ltr:text-left rtl:text-right">
+                <div>
+                    <h4 class="text-xs sm:text-sm font-serif text-gray-800 dark:text-gray-100 font-semibold" x-text="t('stat1Title')">منتجات رقمية عملية</h4>
+                </div>
+                <div>
+                    <h4 class="text-xs sm:text-sm font-serif text-gray-800 dark:text-gray-100 font-semibold" x-text="t('stat2Title')">استشارات</h4>
+                </div>
+                <div>
+                    <h4 class="text-xs sm:text-sm font-serif text-gray-800 dark:text-gray-100 font-semibold" x-text="t('stat3Title')">خدمات حاسوبية مختارة</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- الجزء البصري / الصور -->
+        <div data-aos="fade-up" data-aos-duration="1000" class="lg:col-span-5 relative flex justify-center">
+            
+            <div class="relative w-72 sm:w-80 h-96 rounded-2xl overflow-hidden shadow-2xl border border-white/40 transform rtl:rotate-3 ltr:-rotate-3 hover:rotate-0 transition-transform duration-500 group">
+                <img src="images/background2.jpg" alt="E-books and AI Learning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-rosegold/20 to-transparent"></div>
+              
+                <div class="absolute bottom-4 left-4 right-4 text-white p-3 rounded-xl bg-white/20 backdrop-blur-md border border-white/30">
+                    <p class="text-xs font-serif font-medium">الكتب والمنتجات الرقمية</p>
+                    <span class="text-[10px] opacity-90 uppercase tracking-wider">Dalune Digital Collection</span>
+                </div>
+            </div>
+
+            <div class="absolute -bottom-6 rtl:-right-2 rtl:sm:-right-6 ltr:-left-2 ltr:sm:-left-6 w-56 h-72 rounded-2xl overflow-hidden shadow-xl border border-white/40 transform rtl:-rotate-6 ltr:rotate-6 hover:rotate-0 transition-transform duration-500 hidden sm:block">
+                <img src="images/background1.jpg" alt="AI & Education" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-rosegold/20 mix-blend-multiply"></div>
+               
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= WHAT WE OFFER SECTION ================= -->
+<section id="what-we-offer" class="py-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
+    <!-- Section Title & Subtitle -->
+    <div data-aos="fade-up" class="mb-12 text-center space-y-2">
+        <h2 class="text-3xl md:text-4xl font-heading font-semibold text-charcoal dark:text-ivory" x-text="t('secOfferTitle')">
+            ماذا تقدم DALUNE؟
+        </h2>
+        <!-- تعديل لون العنوان الفرعي -->
+        <p class="text-sm md:text-base text-gray-700 dark:text-gray-200 font-normal" x-text="t('secOfferSubtitle')">
+            حلول متكاملة مصممة بعناية لتلبي طموحاتك الشخصية والمهنية.
+        </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <template x-for="(item, index) in offers" :key="item.id">
+            <div data-aos="fade-up" :data-aos-delay="index * 150" 
+                 class="bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 dark:border-rosegold/30 rounded-3xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(183,110,121,0.2)] dark:hover:shadow-[0_10px_25px_-5px_rgba(183,110,121,0.2)] hover:border-rosegold/60 dark:hover:border-rosegold/60">
+                
+                <!-- Circle Number Badge -->
+                <div class="w-12 h-12 rounded-full bg-blush/60 dark:bg-rosegold/20 text-rosegold flex items-center justify-center font-heading font-semibold text-lg mb-6">
+                    <span x-text="item.id"></span>
+                </div>
+
+                <!-- Content -->
+                <div class="space-y-3">
+                    <h3 class="text-xl md:text-2xl font-heading font-medium text-charcoal dark:text-ivory" x-text="item.title[lang]"></h3>
+                    <!-- تعديل لون النص الوصفي للبطاقة -->
+                    <p class="text-xs md:text-sm text-gray-700 dark:text-gray-200 leading-relaxed font-normal" x-text="item.desc[lang]"></p>
+                </div>
+
+            </div>
+        </template>
+    </div>
+</section>
+    <!-- ================= CATEGORIES SECTION ================= -->
+<section id="categories" class="py-8 px-6 md:px-12 max-w-6xl mx-auto w-full">
+    <div class="space-y-6">
+        
+        <!-- Grid الكارتين العلويين -->
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- 1. كارت الكتب والمنتجات الرقمية -->
+    <div class="bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 dark:border-rosegold/30 rounded-3xl p-6 md:p-8 flex flex-col-reverse md:flex-row items-center justify-between gap-6 transition-all duration-500 ease-out hover:-translate-y-2.5 hover:shadow-2xl hover:shadow-rosegold/20 hover:border-rosegold/60 dark:hover:border-rosegold/60">
+        <div class="space-y-3 ltr:text-left rtl:text-right w-full">
+            <span class="inline-block text-xs text-rosegold font-semibold bg-blush/60 dark:bg-rosegold/15 px-3 py-1 rounded-full" x-text="t('cat1Badge')">الكتب</span>
+            <h3 class="text-xl md:text-2xl font-serif text-charcoal dark:text-ivory font-bold" x-text="t('cat1Title')">الكتب والمنتجات الرقمية</h3>
+            <p class="text-xs md:text-sm text-gray-700 dark:text-gray-200 leading-relaxed" x-text="t('cat1Desc')">استكشف كتبنا الرقمية ومواردنا التعليمية الذكية.</p>
+            <div class="pt-1">
+                <a href="#books" class="inline-block px-6 py-2 rounded-full border border-rosegold/60 text-rosegold text-xs font-semibold hover:bg-rosegold hover:text-white transition-all" x-text="t('cat1Btn')">عرض الكتب ←</a>
+            </div>
+        </div>
+        <!-- صورة الكارت -->
+        <div class="w-32 h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border border-rosegold/20">
+            <img src="images/books.jpg" alt="الكتب الرقمية" class="w-full h-full object-cover">
+        </div>
+    </div>
+
+    <!-- 2. كارت الخدمات الاستشارية -->
+    <div  class="bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 dark:border-rosegold/30 rounded-3xl p-6 md:p-8 flex flex-col-reverse md:flex-row items-center justify-between gap-6 transition-all duration-500 ease-out hover:-translate-y-2.5 hover:shadow-2xl hover:shadow-rosegold/20 hover:border-rosegold/60 dark:hover:border-rosegold/60">
+        <div class="space-y-3 ltr:text-left rtl:text-right w-full">
+            <span class="inline-block text-xs text-rosegold font-semibold bg-blush/60 dark:bg-rosegold/15 px-3 py-1 rounded-full" x-text="t('cat2Badge')">الخدمات</span>
+            <h3 class="text-xl md:text-2xl font-serif text-charcoal dark:text-ivory font-bold" x-text="t('cat2Title')">الخدمات الاستشارية والحاسوبية</h3>
+            <p class="text-xs md:text-sm text-gray-700 dark:text-gray-200 leading-relaxed" x-text="t('cat2Desc')">استشارات تقنية وخدمات حاسوبية مصممة لتلبية احتياجاتك.</p>
+            <div class="pt-1">
+                <a href="#contact-cta" class="inline-block px-6 py-2 rounded-full border border-rosegold/60 text-rosegold text-xs font-semibold hover:bg-rosegold hover:text-white transition-all" x-text="t('cat2Btn')">اكتشف الخدمات ←</a>
+            </div>
+        </div>
+        <!-- صورة الكارت -->
+        <div class="w-32 h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden shadow-md flex-shrink-0 border border-rosegold/20">
+            <img src="images/services.jpg" alt="الخدمات الحاسوبية" class="w-full h-full object-cover">
+        </div>
+    </div>
+
+</div>
+
+       
+       <!-- 3. كارت مساعد المعلم الذكية  -->
+<div id="teacher-assistant" data-aos="fade-up" data-aos-duration="800"
+     class="bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 dark:border-rosegold/30 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center relative overflow-hidden transition-all duration-500 ease-out hover:-translate-y-2.5 hover:shadow-2xl hover:shadow-rosegold/20 hover:border-rosegold/60 dark:hover:border-rosegold/60">
+    
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-6">
+        
+        <!-- صورة الحقيبة -->
+        <div class="w-32 h-32 md:w-36 md:h-36 shrink-0 rounded-2xl overflow-hidden border border-rosegold/30 shadow-md relative group">
+            <img src="images/teacherbag.png" alt="حقيبة المعلم الذكية Dalune" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-rosegold/20 mix-blend-overlay"></div>
+           
+        </div>
+
+        <!-- تفاصيل الحقيبة -->
+        <div class="ltr:text-left rtl:text-right space-y-2">
+            <span class="inline-block px-3 py-0.5 rounded-full bg-blush/60 dark:bg-rosegold/15 text-rosegold text-[10px] font-semibold tracking-widest" x-text="t('comingSoonBadge')">قريباً / المساحة الإعلانية</span>
+            <h3 class="text-xl md:text-2xl font-serif text-charcoal dark:text-ivory font-bold" x-text="t('cat3Title')">حقيبة المعلم الذكية</h3>
+            <p class="text-xs text-gray-700 dark:text-gray-200 font-normal leading-relaxed" x-text="t('cat3Desc')">حقيبة متكاملة مدعومة بالذكاء الاصطناعي تحتوي على أدوات، نماذج، وقوالب تحضير ذكية لتسهيل عمل المعلم وتوفير الوقت والجهد.</p>
+
+           
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+</section>
+
+    <!-- Toast Notification -->
+    <div x-show="toastOpen"
+         x-transition:enter="transition ease-out duration-300 transform"
+         x-transition:enter-start="opacity-0 -translate-y-full"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200 transform"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-full"
+         class="fixed top-0 left-0 right-0 z-50 bg-ivory/95 dark:bg-charcoal/95 backdrop-blur-md border-b border-rosegold/30 shadow-2xl py-5 px-6 transition-all duration-300"
+         style="display: none;">
+
+        <div class="max-w-2xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center justify-center gap-3.5 w-full">
+                <p class="text-base sm:text-lg font-serif text-charcoal dark:text-ivory tracking-wide font-normal" x-text="toastMessage"></p>
+            </div>
+            <button @click="toastOpen = false" class="text-warmgray hover:text-rosegold transition-colors text-base font-semibold shrink-0 px-2 py-1">
+                ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= DIGITAL BOOKS SECTION ================= -->
+  <section id="books" class="py-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
+    <div data-aos="fade-up" data-aos-duration="800" class="mb-12 ltr:text-left rtl:text-right">
+        
+        <h2 class="text-3xl md:text-4xl font-serif mt-1" x-text="t('secBooksTitle')">الكتب والمنتجات الرقمية</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <template x-for="(book, index) in books" :key="book.id">
+            <div data-aos="fade-up" :data-aos-delay="index * 200" data-aos-duration="800" 
+                 class="group rounded-2xl bg-ivory/50 dark:bg-charcoal-card border border-rosegold-subtle overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all duration-500">
+                
+                <!-- Image Container with Dynamic Badges -->
+                <div class="aspect-[4/3] bg-blush/30 overflow-hidden relative">
+                    <img :src="book.image" :alt="book.title[lang]" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                    
+                    <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+                      
+
+                        <div class="bg-white/80 dark:bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/30 shadow-sm pointer-events-auto">
+                            <span class="text-xs font-medium text-[#2B3A34] dark:text-ivory" x-text="lang === 'ar' ? book.priceAr : book.priceEn"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6 md:p-8 flex flex-col justify-between flex-grow ltr:text-left rtl:text-right">
+                    <div>
+                        <h3 class="text-2xl font-serif mb-3 text-rosegold" x-text="book.title[lang]"></h3>
+                        <!-- تم تعديل كلاس النص الوصفي هنا -->
+                        <p class="text-xs text-gray-700 dark:text-gray-200 font-normal mb-6 leading-relaxed" x-text="book.shortDesc[lang]"></p>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-rosegold-subtle/30">
+                        <button @click="openModal(book)" class="btn-luxury w-full py-2.5 rounded-full border border-rosegold-subtle hover:border-rosegold text-xs uppercase tracking-wider transition-all duration-300">
+                            <span x-text="t('btnViewDetails')">عرض التفاصيل</span>
+                        </button>
+                        <a :href="'https://wa.me/96596001818?text=' + encodeURIComponent('مرحباً دالون، أرغب في الاستفسار عن قسم: ' + book.title[lang])" target="_blank" class="btn-luxury block text-center w-full py-2.5 rounded-full bg-rosegold hover:bg-rosegold-hover text-white text-xs uppercase tracking-wider transition-all duration-300 shadow-sm">
+                            <span x-text="t('btnBuyNow')">اطلب الآن عبر الواتساب</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+    </div>
+</section>
+
+    <!-- ================= VISUAL GALLERY SECTION ================= -->
+    <section id="gallery" class="py-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
+        <div data-aos="fade-up" data-aos-duration="800" class="mb-12 ltr:text-left rtl:text-right">
+            
+            <h2 class="text-3xl md:text-4xl font-serif mt-1" x-text="t('secCardsTitle')">المعرض البصري الرقمي</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <template x-for="(card, index) in cards" :key="card.id">
+                <div data-aos="zoom-in" :data-aos-delay="index * 150" data-aos-duration="800"
+                     @click="openCard(card)"
+                     class="group relative rounded-2xl overflow-hidden border border-rosegold-subtle aspect-[4/5] bg-ivory dark:bg-charcoal-card cursor-pointer">
+                    <img :src="card.image" :alt="card.title[lang]" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                    
+                  
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 inset-x-0 p-6 text-white transform group-hover:-translate-y-1 transition-transform duration-300 ltr:text-left rtl:text-right">
+                        <span class="text-[10px] uppercase tracking-widest text-blush opacity-90 block mb-1" x-text="card.category[lang]"></span>
+                        <h4 class="text-xl font-serif font-light" x-text="card.title[lang]"></h4>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </section>
+
+    <!-- ================= CARD / GALLERY MODAL ================= -->
+    <div x-show="activeCard !== null" 
+     x-cloak
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     @keydown.escape.window="activeCard = null"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/60"
+     style="display: none;">
+     
+    <div @click="activeCard = null" class="absolute inset-0"></div>
+
+    <div class="relative bg-ivory dark:bg-charcoal-card w-full max-w-4xl rounded-3xl p-6 md:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto border border-rosegold-subtle"
+         x-show="activeCard !== null"
+         x-transition:enter="transition ease-out duration-300 transform"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-data="{ currentImg: 0 }"
+         x-effect="if(activeCard) currentImg = 0">
+        
+        <!-- تعديل لون أيقونة الإغلاق لضمان وضوحها -->
+        <button @click="activeCard = null" 
+                class="absolute top-5 ltr:right-5 rtl:left-5 text-gray-700 dark:text-gray-200 hover:text-rosegold text-xl w-10 h-10 flex items-center justify-center rounded-full bg-white/80 dark:bg-charcoal/80 border border-rosegold-subtle transition-all duration-300 shadow-sm z-20">
+            ✕
+        </button>
+
+        <template x-if="activeCard">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start ltr:text-left rtl:text-right">
+                
+                <div class="space-y-4">
+                    <div class="rounded-2xl overflow-hidden border border-rosegold-subtle aspect-[4/3] bg-black/5 shadow-inner relative">
+                        <img :src="activeCard.gallery ? activeCard.gallery[currentImg] : activeCard.image" 
+                             class="w-full h-full object-cover transition-all duration-300">
+                        
+                    </div>
+
+                    <template x-if="activeCard.gallery">
+                        <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                            <template x-for="(imgUrl, imgIndex) in activeCard.gallery" :key="imgIndex">
+                                <button @click="currentImg = imgIndex" 
+                                        :class="currentImg === imgIndex ? 'ring-2 ring-rosegold scale-95' : 'opacity-60 hover:opacity-100'"
+                                        class="relative flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border border-rosegold-subtle transition-all duration-200">
+                                    <img :src="imgUrl" class="w-full h-full object-cover">
+                                </button>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="flex flex-col justify-between h-full space-y-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-rosegold font-semibold block mb-1" x-text="activeCard.category[lang]"></span>
+                        <h3 class="text-2xl md:text-3xl font-serif text-charcoal dark:text-ivory font-light mb-3" x-text="activeCard.title[lang]"></h3>
+                        
+                        <template x-if="activeCard.priceAr">
+                            <div class="text-2xl font-serif text-rosegold font-semibold mb-4" x-text="lang === 'ar' ? activeCard.priceAr : activeCard.priceEn"></div>
+                        </template>
+
+                        <!-- تعديل لون النص الوصفي داخل المودال -->
+                        <template x-if="activeCard.desc">
+                            <p class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed mb-6 font-normal" x-text="activeCard.desc[lang]"></p>
+                        </template>
+                    </div>
+
+                    <div class="space-y-3 pt-4 border-t border-rosegold-subtle/30">
+                        <a :href="'https://wa.me/96596001818?text=' + encodeURIComponent('مرحباً دالون، أود الطلب والاستفسار عن: ' + activeCard.title[lang])" target="_blank" 
+                           class="w-full py-3.5 rounded-xl bg-rosegold hover:bg-rosegold-hover text-white text-xs uppercase tracking-widest font-semibold transition-all duration-300 shadow-md text-center block">
+                            <span x-text="t('btnWhatsApp')">استفسر عبر واتساب</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </template>
+    </div>
+</div>
+    
+   <!-- ================= CONTACT SECTION ================= -->
+<section id="contact" class="pt-12 pb-8 px-6 max-w-5xl mx-auto text-center" data-aos="fade-up" data-aos-duration="1000">
+    
+    <h2 class="text-3xl md:text-5xl font-serif mb-6" x-text="t('secContactTitle')">تواصل مع Dalune</h2>
+    
+    <!-- تم تعديل اللون والوزن هنا -->
+    <p class="text-gray-700 dark:text-gray-200 text-xs md:text-sm font-normal max-w-xl mx-auto mb-10 leading-relaxed" x-text="t('contactDesc')">
+        سواء كانت لديك استفسارات حول منتجاتنا الرقمية، الخدمات الحاسوبية، والاستشارات التقنية، فنحن هنا لمساعدتك.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 ltr:text-left rtl:text-right">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/96596001818" target="_blank" 
+           class="p-6 rounded-2xl bg-ivory/60 dark:bg-charcoal-card border border-rosegold-subtle hover:border-rosegold hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+            <div>
+                <div class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center mb-4 group-hover:bg-rosegold group-hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                </div>
+                <h4 class="text-base font-serif font-medium mb-1" x-text="t('cCard1Title')">WhatsApp</h4>
+                <!-- تم تعديل كلاس النص الوصفي للبطاقة -->
+                <p class="text-[11px] text-gray-700 dark:text-gray-200 font-normal mb-4" x-text="t('cCard1Desc')">محادثة مباشرة للاستشارات السريعة والطلبات.</p>
+            </div>
+            <span class="text-xs font-semibold text-rosegold uppercase tracking-wider inline-flex items-center gap-1">
+                <span x-text="t('cCard1Btn')">تحدث معنا</span>
+                <span class="rtl:rotate-180 ltr:rotate-0 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">→</span>
+            </span>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/dalune.kw" target="_blank" 
+           class="p-6 rounded-2xl bg-ivory/60 dark:bg-charcoal-card border border-rosegold-subtle hover:border-rosegold hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+            <div>
+                <div class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center mb-4 group-hover:bg-rosegold group-hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </div>
+                <h4 class="text-base font-serif font-medium mb-1" x-text="t('cCard2Title')">حساب الانستغرام Instagram</h4>
+                <!-- تم تعديل كلاس النص الوصفي للبطاقة -->
+                <p class="text-[11px] text-gray-700 dark:text-gray-200 font-normal mb-4" x-text="t('cCard2Desc')">تابع حسابنا واستعرض أعمالنا.</p>
+            </div>
+            <span class="text-xs font-semibold text-rosegold uppercase tracking-wider inline-flex items-center gap-1">
+                <span x-text="t('cCard2Btn')">تابعنا</span>
+                <span class="rtl:rotate-180 ltr:rotate-0 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">→</span>
+            </span>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:info@dalune.me" 
+           class="p-6 rounded-2xl bg-ivory/60 dark:bg-charcoal-card border border-rosegold-subtle hover:border-rosegold hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+            <div>
+                <div class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center mb-4 group-hover:bg-rosegold group-hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h4 class="text-base font-serif font-medium mb-1" x-text="t('cCard3Title')">E-mail</h4>
+                <!-- تم تعديل كلاس النص الوصفي للبطاقة -->
+                <p class="text-[11px] text-gray-700 dark:text-gray-200 font-normal mb-4" x-text="t('cCard3Desc')">للطلبات التفصيلية والتواصل الرسمي.</p>
+            </div>
+            <span class="text-xs font-semibold text-rosegold uppercase tracking-wider inline-flex items-center gap-1">
+                <span x-text="t('cCard3Btn')">إرسال إيميل</span>
+                <span class="rtl:rotate-180 ltr:rotate-0 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">→</span>
+            </span>
+        </a>
+    </div>
+</section>
+
+<!-- ================= FINAL CALL TO ACTION (CTA) ================= -->
+<section id="contact-cta" class="pt-4 pb-14 px-6 md:px-12 max-w-7xl mx-auto w-full mb-6">
+    <div data-aos="fade-up" 
+         class="rounded-3xl bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 p-8 md:p-10 flex flex-col items-center justify-center text-center space-y-5 shadow-sm">
+        
+        <!-- Text Content -->
+        <div class="space-y-2 max-w-2xl mx-auto">
+            <h3 class="text-2xl md:text-3xl font-heading font-medium text-charcoal dark:text-ivory" x-text="t('ctaTitle')">
+                هل تحتاجين منتجًا أو حلًا يناسب احتياجك؟
+            </h3>
+            <!-- تم تعديل كلاسات اللون هنا لتكون أغمق وأوضح -->
+            <p class="text-xs md:text-sm text-gray-700 dark:text-gray-200 font-normal leading-relaxed" x-text="t('ctaSubtitle')">
+                تواصل معنا عبر واتساب لمساعدتك في اختيار الخيار الأنسب لك أو لتنفيذ طلبك الخاص.
+            </p>
+        </div>
+
+        <!-- Action Button (Centered) -->
+        <a href="https://wa.me/96596001818?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20DALUNE%D9%80%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84%20%D9%88%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1" 
+           target="_blank" 
+           class="px-8 py-3.5 rounded-full bg-rosegold hover:bg-rosegold-hover text-white text-xs md:text-sm font-semibold shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-4px_rgba(183,110,121,0.4)] flex items-center justify-center gap-2.5">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            <span x-text="t('btnCtaWhatsapp')">تواصلي معنا عبر واتساب</span>
+        </a>
+
+    </div>
+</section>
+  <!-- ================= FOOTER ================= -->
+<footer class="border-t border-rosegold-subtle pt-16 pb-8 px-6 md:px-12 bg-ivory/40 dark:bg-charcoal/70">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 mb-12">
+        
+        <!-- Column 1: Brand & Social -->
+        <div class="lg:col-span-4 space-y-4 ltr:text-left rtl:text-right">
+             <!-- logo -->
+            <a href="#hero" class="inline-block group transition-all duration-300 transform hover:scale-105">
+                <img src="images/logo-light-rosegold-transparent.png" 
+                     class="h-8 md:h-9 w-auto object-contain filter drop-shadow-sm brightness-95 contrast-105 dark:hidden" 
+                     alt="Dalune">
+
+                <img src="images/logo-dark-transparent.png" 
+                     class="h-8 md:h-9 w-auto object-contain filter drop-shadow-sm brightness-110 hidden dark:block" 
+                     alt="Dalune">
+            </a>
+            
+            <!-- رفع التباين وتكبير الخط -->
+            <p class="text-sm text-gray-900 dark:text-gray-100 font-normal max-w-sm leading-relaxed" x-text="t('footerAbout')">
+                مشروع يقدم استشارات ومنتجات رقمية وخدمات حاسوبية عملية وفقا لاحتياج العملاء.
+            </p>
+            
+            <!-- Social Icons -->
+            <div class="flex items-center gap-3 pt-2">
+                <a href="https://wa.me/96596001818" target="_blank" aria-label="WhatsApp" class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center hover:bg-rosegold hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                </a>
+
+                <a href="https://www.instagram.com/dalune.kw" target="_blank" aria-label="Instagram" class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center hover:bg-rosegold hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+
+                <a href="mailto:info@dalune.me" aria-label="Email" class="w-10 h-10 rounded-full bg-rosegold/10 text-rosegold flex items-center justify-center hover:bg-rosegold hover:text-white transition-colors duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="lg:col-span-2 space-y-3 ltr:text-left rtl:text-right">
+            <span class="text-sm uppercase tracking-widest font-bold text-rosegold block mb-2" x-text="t('footerNavTitle')">التنقل السريع</span>
+            <ul class="space-y-2.5 text-sm text-gray-900 dark:text-gray-100 font-medium">
+                <li><a href="#hero" class="hover:text-rosegold transition-colors" x-text="t('navHome')">الرئيسية</a></li>
+                <li><a href="#books" class="hover:text-rosegold transition-colors" x-text="t('navBooks')">الكتب الرقمية</a></li>
+                <li><a href="#gallery" class="hover:text-rosegold transition-colors" x-text="t('navServices')">الخدمات</a></li>
+                <li><a href="#contact" class="hover:text-rosegold transition-colors" x-text="t('navContact')">تواصل معنا</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 3: Categories & Offerings -->
+        <div class="lg:col-span-3 space-y-3 ltr:text-left rtl:text-right">
+            <span class="text-sm uppercase tracking-widest font-bold text-rosegold block mb-2" x-text="lang === 'ar' ? 'الأقسام والخدمات' : 'Categories'">الأقسام والخدمات</span>
+            <ul class="space-y-2.5 text-sm text-gray-900 dark:text-gray-100 font-medium">
+                <li><a href="#categories" class="hover:text-rosegold transition-colors" x-text="lang === 'ar' ? 'مساعد المعلم الذكية' : 'Smart Teacher Assistant'">مساعد المعلم الذكية</a></li>
+                <li><a href="#books" class="hover:text-rosegold transition-colors" x-text="lang === 'ar' ? 'منتجات أصحاب المشاريع' : 'For Business Owners'">منتجات أصحاب المشاريع</a></li>
+                <li><a href="#categories" class="hover:text-rosegold transition-colors" x-text="lang === 'ar' ? 'الاستشارات التقنية' : 'Tech Consultations'">الاستشارات التقنية</a></li>
+                <li><a href="#gallery" class="hover:text-rosegold transition-colors" x-text="lang === 'ar' ? 'المعرض البصري الرقمي' : 'Visual Gallery'">المعرض البصري الرقمي</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 4: Quick Contact & Info (تم التبسيط وتعديل العبارة) -->
+        <div class="lg:col-span-3 space-y-3 ltr:text-left rtl:text-right">
+            <span class="text-sm uppercase tracking-widest font-bold text-rosegold block mb-2" x-text="lang === 'ar' ? 'الدعم والاستفسارات' : 'Support & Info'">الدعم والاستفسارات</span>
+            <div class="space-y-2 text-sm text-gray-900 dark:text-gray-100 font-medium">
+                <p class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block shrink-0"></span>
+                    <span x-text="lang === 'ar' ? 'استقبال الطلبات متاح — ويتم الرد خلال ساعات العمل.' : 'Orders available — response during working hours.'">
+                        استقبال الطلبات متاح — ويتم الرد خلال ساعات العمل.
+                    </span>
+                </p>
+           <!-- زر العودة للأعلى -->
+<div class="mt-4 flex items-center justify-center md:justify-end w-full">
+    <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+            class="px-6 py-2.5 rounded-full border border-rosegold bg-ivory/40 dark:bg-charcoal/70 text-rosegold hover:bg-rosegold hover:text-white text-xs font-semibold shadow-sm transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center gap-2 cursor-pointer">
+        <span x-text="t('backToTop')">العودة للأعلى</span>
+        <svg class="w-4 h-4 fill-current transform group-hover:-translate-y-0.5 transition-transform duration-300" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/>
+        </svg>
+    </button>
+</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Bar (سطر سفلي واحد متناسق) -->
+    <div class="max-w-7xl mx-auto pt-6 border-t border-rosegold-subtle/50 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-800 dark:text-gray-200 font-medium">
+        
+      
+           <p>© 2026 Dalune. <span x-text="t('rights')">جميع الحقوق محفوظة.</span></p>
+       <!-- قسم الشروط وسياسة الخصوصية مع Modal -->
+<div x-data="{ openModal: false, modalType: '' }" class="inline-flex items-center gap-4 md:gap-6 tracking-wider uppercase text-xs md:text-sm">
+    
+    <!-- زر الشروط والأحكام -->
+    <button type="button" 
+            @click.prevent="modalType = 'terms'; openModal = true" 
+            class="hover:text-rosegold transition-colors cursor-pointer" 
+            x-text="lang === 'ar' ? 'الشروط والأحكام' : 'Terms & Conditions'">
+        الشروط والأحكام
+    </button>
+    
+    <span class="opacity-40">•</span>
+    
+    <!-- زر سياسة الخصوصية -->
+    <button type="button" 
+            @click.prevent="modalType = 'privacy'; openModal = true" 
+            class="hover:text-rosegold transition-colors cursor-pointer" 
+            x-text="lang === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'">
+        سياسة الخصوصية
+    </button>
+
+    <span class="opacity-40">•</span>
+
+    <!-- زر سياسة الاسترجاع -->
+    <button type="button" 
+            @click.prevent="modalType = 'refund'; openModal = true" 
+            class="hover:text-rosegold transition-colors cursor-pointer" 
+            x-text="lang === 'ar' ? 'سياسة الاسترجاع' : 'Refund Policy'">
+        سياسة الاسترجاع
+    </button>
+
+    <!-- النافذة الانبثاقية (Modal) -->
+    <div x-show="openModal" 
+         x-cloak
+         style="display: none;"
+         @keydown.escape.window="openModal = false"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/60 backdrop-blur-sm"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+
+        <!-- خلفية إغلاق عند الضغط خارج النافذة -->
+        <div class="fixed inset-0 cursor-pointer" @click="openModal = false"></div>
+
+        <!-- كارت النافذة المصمم بنفس هُوية Dalune -->
+        <div class="relative w-full max-w-xl bg-[#FAF6F3] dark:bg-charcoal-card border border-rosegold/30 rounded-3xl p-6 md:p-8 shadow-2xl z-10 overflow-hidden transform transition-all"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+            
+            <!-- زر الإغلاق X -->
+            <button type="button" @click="openModal = false" class="absolute top-5 ltr:right-5 rtl:left-5 text-gray-400 hover:text-rosegold transition-colors cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <!-- هيدر النافذة -->
+            <div class="text-center space-y-2 mb-5">
+                <span class="text-lg font-serif text-rosegold font-bold tracking-widest block">DALUNE</span>
+                <h3 class="text-xl md:text-2xl font-serif text-charcoal dark:text-ivory font-bold" 
+                    x-text="modalType === 'terms' ? t('termsTitle') : (modalType === 'privacy' ? t('privacyTitle') : t('refundTitle'))"></h3>
+                <div class="w-12 h-0.5 bg-rosegold/40 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- محتوى النص الداخلي الكامل -->
+            <div class="bg-blush/20 dark:bg-rosegold/10 border border-rosegold/20 rounded-2xl p-5 text-xs md:text-sm text-gray-700 dark:text-gray-200 leading-relaxed ltr:text-left rtl:text-right max-h-[60vh] overflow-y-auto">
+                
+                <!-- فقرات الشروط والأحكام -->
+                <div x-show="modalType === 'terms'" class="space-y-3">
+                    <p x-text="t('termsText1')" class="font-semibold text-charcoal dark:text-ivory text-center pb-1 border-b border-rosegold/10"></p>
+                    <ul class="list-disc list-inside space-y-2 marker:text-rosegold">
+                        <li x-text="t('termsText2')"></li>
+                        <li x-text="t('termsText3')"></li>
+                        <li x-text="t('termsText4')"></li>
+                        <li x-text="t('termsText5')"></li>
+                        <li x-text="t('termsText6')"></li>
+                    </ul>
+                </div>
+
+                <!-- فقرات سياسة الخصوصية -->
+                <div x-show="modalType === 'privacy'" class="space-y-3">
+                    <p x-text="t('privacyText1')" class="font-semibold text-charcoal dark:text-ivory text-center pb-1 border-b border-rosegold/10"></p>
+                    <ul class="list-disc list-inside space-y-2 marker:text-rosegold">
+                        <li x-text="t('privacyText2')"></li>
+                        <li x-text="t('privacyText3')"></li>
+                        <li x-text="t('privacyText4')"></li>
+                        <li x-text="t('privacyText5')"></li>
+                        <li x-text="t('privacyText6')"></li>
+                        <li x-text="t('privacyText7')"></li>
+                    </ul>
+                </div>
+
+                <!-- فقرات سياسة الاسترجاع -->
+                <div x-show="modalType === 'refund'" class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-rosegold mb-1" x-text="t('refundSec1Title')">المنتجات الرقمية</h4>
+                        <p x-text="t('refundSec1Text1')"></p>
+                        <p x-text="t('refundSec1Text2')" class="mt-2"></p>
+                    </div>
+                    
+                    <div class="pt-3 border-t border-rosegold/10">
+                        <h4 class="font-bold text-rosegold mb-1" x-text="t('refundSec2Title')">الخدمات</h4>
+                        <p x-text="t('refundSec2Text')"></p>
+                    </div>
+
+                    <div class="pt-3 border-t border-rosegold/10">
+                        <h4 class="font-bold text-rosegold mb-1" x-text="t('refundSec3Title')">الدفع المكرر</h4>
+                        <p x-text="t('refundSec3Text')"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- فوتر مصغر داخل النافذة -->
+            <div class="mt-4 text-center text-[10px] text-gray-700 dark:text-gray-200 font-serif">
+                <p>© 2026 DALUNE | جميع الحقوق محفوظة</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+       
+    </div>
+</footer>
+
+    <!-- ================= PRODUCT DETAILS MODAL (تصميم مطور ومماثل للصورة) ================= -->
+   <div x-show="modalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 md:p-6" role="dialog" aria-modal="true">
+    <div x-show="modalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="modalOpen = false" 
+         class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm"></div>
+
+    <div x-show="modalOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+         @click.away="modalOpen = false" 
+         class="relative bg-offwhite dark:bg-charcoal-card rounded-3xl max-w-3xl w-full border border-rosegold-subtle shadow-2xl overflow-hidden z-10 my-8">
+        
+        <!-- زر الإغلاق -->
+        <button @click="modalOpen = false" class="absolute top-4 ltr:right-4 rtl:left-4 z-20 text-gray-700 dark:text-gray-200 hover:text-rosegold p-2 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <template x-if="activeBook">
+            <div class="flex flex-col md:flex-row ltr:text-left rtl:text-right items-stretch">
+                
+                <!-- العمود الأيمن/الأيسر: تفاصيل المنتج -->
+                <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-between space-y-6">
+                    <div>
+                        <!-- العنوان -->
+                        <h3 class="text-2xl md:text-3xl font-serif mb-2 text-charcoal dark:text-ivory font-medium" x-text="activeBook.title[lang]"></h3>
+                        
+                        <!-- السعر -->
+                        <div class="text-xl font-serif text-rosegold font-semibold mb-4" x-text="lang === 'ar' ? activeBook.priceAr : activeBook.priceEn"></div>
+                        
+                        <!-- الوصف المعدل -->
+                        <p class="text-xs text-gray-700 dark:text-gray-200 font-normal mb-6 leading-relaxed" x-text="activeBook.fullDesc[lang]"></p>
+                        
+                        <!-- المحتويات والمميزات -->
+                        <template x-if="activeBook.features">
+                            <div class="mb-6">
+                                <h4 class="text-xs font-semibold text-charcoal dark:text-ivory mb-2" x-text="lang === 'ar' ? 'المحتويات والمميزات:' : 'Contents & Features:'">المحتويات والمميزات:</h4>
+                                <ul class="space-y-1.5 text-xs text-gray-700 dark:text-gray-200 font-normal list-disc list-inside">
+                                    <template x-for="feat in activeBook.features[lang]" :key="feat">
+                                        <li x-text="feat"></li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- الأزرار السفليّة -->
+                    <div class="space-y-2 pt-4 border-t border-rosegold-subtle/30">
+                        <a :href="'https://wa.me/96596001818?text=' + encodeURIComponent('مرحباً دالون، أود شراء المنتج: ' + activeBook.title[lang])" target="_blank" 
+                           class="btn-luxury block text-center w-full py-3 rounded-full bg-rosegold hover:bg-rosegold-hover text-white text-xs uppercase tracking-wider font-semibold transition-all duration-300 shadow-md">
+                            <span x-text="lang === 'ar' ? 'شراء الآن' : 'Buy Now'">شراء الآن</span>
+                        </a>
+                        <a :href="'https://wa.me/96596001818?text=' + encodeURIComponent('مرحباً دالون، أرغب في الاستفسار عن: ' + activeBook.title[lang])" target="_blank" 
+                           class="btn-luxury block text-center w-full py-3 rounded-full border border-rosegold-subtle hover:border-rosegold hover:bg-rosegold/10 text-charcoal dark:text-ivory text-xs uppercase tracking-wider font-semibold transition-all duration-300">
+                            <span x-text="t('btnWhatsApp')">استفسر عبر واتساب</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- العمود الجانبي: صورة المنتج -->
+                <div class="md:w-1/2 bg-blush/20 relative min-h-[300px] md:min-h-full">
+                    <img :src="activeBook.image" :alt="activeBook.title[lang]" class="w-full h-full object-cover">
+                 
+                </div>
+
+            </div>
+        </template>
+    </div>
+</div>
+
+    <!-- ================= FLOATING CHAT BUTTON ================= -->
+    <div x-data="{ showFloatingBtn: false }"
+         @scroll.window="showFloatingBtn = (window.pageYOffset > 400)"
+         x-show="showFloatingBtn"
+         x-cloak
+         x-transition:enter="transition ease-out duration-300 transform"
+         x-transition:enter-start="opacity-0 translate-y-10 scale-90"
+         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+         x-transition:leave="transition ease-in duration-200 transform"
+         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+         x-transition:leave-end="opacity-0 translate-y-10 scale-90"
+         class="fixed bottom-6 ltr:right-6 rtl:left-6 z-50 group flex items-center gap-3">
+        
+        <a href="https://wa.me/96596001818?text=" target="_blank" rel="noopener noreferrer"
+           aria-label="WhatsApp Chat"
+           class="relative w-14 h-14 bg-rosegold hover:bg-rosegold-hover text-white rounded-full flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all duration-300">
+            
+           
+
+            <svg class="w-6 h-6 fill-current relative z-10" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l.999 1.595-1.157 4.228 4.331-1.136 1.57 1.02zm10.28-6.195c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" integrity="sha384-wziAfh6b/qT+3LrqebF9WeK4+J5sehS6FA10J1t3a866kJ/fvU5UwofWnQyzLtwu" crossorigin="anonymous"></script>
+
+    <!-- ================= ALPINE APP SCRIPT ================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                once: true,
+                easing: 'ease-out-cubic'
+            });
+        });
+
+        function daluneApp() {
+            return {
+                lang: 'ar',
+                darkMode: false,
+                mobileMenuOpen: false,
+                modalOpen: false,
+                activeBook: null,
+                activeCard: null,
+
+                toastOpen: false,
+                toastMessage: "",
+
+                showToast(msgKey) {
+                    this.toastMessage = this.t(msgKey) || msgKey;
+                    this.toastOpen = true;
+                    setTimeout(() => {
+                        this.toastOpen = false;
+                    }, 3500);
+                },
+
+                toggleLang() {
+                    this.lang = this.lang === 'ar' ? 'en' : 'ar';
+                    this.$nextTick(() => { 
+                        AOS.refresh(); 
+                    });
+                },
+
+                openModal(book) {
+                    this.activeBook = book;
+                    this.modalOpen = true;
+                },
+
+                openCard(card) {
+                    this.activeCard = card;
+                },
+
+                i18n: {
+                    ar: {
+                        navHome: 'الرئيسية',
+                        navBooks: 'المنتجات الرقمية',
+                        navServices: 'الخدمات',
+                        navWhatWeOffer: 'ماذا تقدم DALUNE؟',
+                        navContact: 'تواصل معنا',
+                        heroTitleLine1: "حلول رقمية صُممت",
+        heroTitleLine2: "لاحتياجك",
+                       
+                        btnExplore: 'تصفّح الخدمات',
+                    
+                        btnContact: 'تواصل معنا',
+                        cat1Title: 'الكتب والمنتجات الرقمية',
+                        cat1Desc: 'استكشف كتبنا الرقمية ومواردنا التعليمية الذكية.',
+                        secOfferTitle: 'ماذا تقدم DALUNE؟',
+secOfferSubtitle: 'حلول متكاملة مصممة بعناية لتلبي طموحاتك الشخصية والمهنية.',
+                      cat1Badge: "الكتب",
+        cat1Title: "الكتب والمنتجات الرقمية",
+        cat1Desc: "استكشف كتبنا الرقمية ومواردنا التعليمية الذكية.",
+        cat1Btn: "عرض الكتب ←",
+
+        cat2Badge: "الخدمات",
+        cat2Title: "الخدمات الاستشارية والحاسوبية",
+        cat2Desc: "استشارات تقنية وخدمات حاسوبية مصممة لتلبية احتياجاتك.",
+        cat2Btn: "اكتشف الخدمات ←",
+                        cat3Title: 'مساعد المعلم الذكية',
+                        cat3Desc: 'حقيبة متكاملة مدعومة بالذكاء الاصطناعي تحتوي على أدوات، نماذج، وقوالب تحضير ذكية لتسهيل عمل المعلم وتوفير الوقت والجهد.',
+                       
+                        comingSoonBadge: 'قريباً / مساحة إعلانية',
+                     
+                        secBooksTitle: 'المنتجات الرقمية',
+                      
+                        secCardsTitle: 'المعرض البصري الرقمي',
+                        
+                        secContactTitle: 'تواصل مع DALUNE',
+                        contactDesc: 'سواء كانت لديك استفسارات حول منتجاتنا الرقمية، الخدمات الحاسوبية، والاستشارات التقنية، فنحن هنا لمساعدتك.',
+                        btnViewDetails: 'عرض التفاصيل',
+                        btnBuyNow: 'اطلب الآن عبر الواتساب',
+                        btnWhatsApp: 'استفسر عبر واتساب',
+                        rights: 'جميع الحقوق محفوظة.',
+                        cat1Badge: 'الكتب',
+                        cat2Badge: 'الخدمات',
+                        cCard1Title: 'WhatsApp',
+                        cCard1Desc: 'محادثة مباشرة للاستشارات السريعة والطلبات.',
+                        cCard1Btn: 'تحدث معنا',
+                        cCard2Title: 'حساب الانستغرام Instagram',
+                        cCard2Desc: 'تابع حسابنا واستعرض أعمالنا.',
+                        cCard2Btn: 'تابعنا',
+                        cCard3Title: 'E-mail',
+                        cCard3Desc: 'للطلبات التفصيلية والتواصل الرسمي.',
+                        cCard3Btn: 'إرسال إيميل',
+                        footerAbout: 'مشروع يقدم استشارات ومنتجات رقمية وخدمات حاسوبية عملية وفقا لاحتياج العملاء.',
+                        footerNavTitle: 'التنقل السريع',
+                        
+                        stat1Title: "منتجات رقمية عملية",
+                        stat2Title: "استشارات",
+                        stat3Title: "خدمات حاسوبية مختارة",
+                        brandName: "DALUNE",
+                        btnWhatsAppTooltip: "تواصل معنا عبر الواتساب",
+                        ctaTitle: 'كيف يمكننا مساعدتك؟',
+ctaSubtitle: 'تواصل معنا عبر واتساب لمساعدتك في اختيار الخيار الأنسب لك أو لتنفيذ طلبك الخاص.',
+btnCtaWhatsapp: 'تواصل معنا عبر واتساب',
+backToTop: "العودة للأعلى",
+termsTitle: "الشروط والأحكام",
+        termsText1: "مرحباً بك في DALUNE. باستخدامك لهذا الموقع أو شراءك لأي من منتجاتنا أو خدماتنا، فإنك توافق على الشروط والأحكام التالية:",
+        termsText2: "جميع المنتجات الرقمية والمحتويات المعروضة مخصصة للاستخدام الشخصي للمشتري، ما لم يُذكر خلاف ذلك. ولا يجوز إعادة بيع المنتجات الرقمية أو توزيعها أو مشاركتها أو نشرها كلياً أو جزئياً دون إذن كتابي مُسبق من DALUNE.",
+        termsText3: "الأسعار والتفاصيل الموضحة عند إتمام الشراء هي المعتمدة للمنتج أو الخدمة المختارة. ويتحمل العملاء مسؤولية إدخال بيانات صحيحة عند إتمام الطلب.",
+        termsText4: "قد تختلف نتائج استخدام الأدوات أو البرومبتات (Prompts) اعتبيراً على الذكاء الاصطناعي باختلاف الأداة والمدخلات المقدمة، ويجب مراجعة النتائج قبل اعتمادها.",
+        termsText5: "تحتفظ DALUNE بحق تحديث المنتجات أو الخدمات أو هذه الشروط عند الحاجة، وتسري التعديلات من تاريخ نشرها على الموقع، دون الإخلال بالطلبات السابقة أو حقوق المستهلك المقررة قانوناً.",
+        termsText6: "خضوع عمليات الشراء والخدمات المقدمة حالياً للأنظمة والقوانين المعمول بها في دولة الكويت.",
+
+        // سياسة الخصوصية
+        privacyTitle: "سياسة الخصوصية",
+        privacyText1: "تحترم DALUNE خصوصية عملائها، وتحرص على حماية بياناتهم الشخصية واستخدامها بالقدر اللازم لتقديم المنتجات والخدمات وتشغيل الموقع.",
+        privacyText2: "قد نجمع البيانات التي يقدمها العميل مثل: الاسم، بيانات التواصل، ومعلومات الطلب.",
+        privacyText3: "تُستخدم البيانات لتنفيذ الطلبات، والتواصل مع العميل، تقديم الدعم، وتحسين الخدمة.",
+        privacyText4: "لا تقوم DALUNE ببيع البيانات الشخصية للغير.",
+        privacyText5: "قد يتم معالجة بعض البيانات بواسطة مزودي الخدمات الضروريين لتشغيل الموقع أو إتمام عمليات الدفع، وفق الأنظمة المعمول بها.",
+        privacyText6: "نتخذ التدابير المناسبة للمحافظة على سرية البيانات وحمايتها.",
+        privacyText7: "يمكن للعميل التواصل معنا للاستفسار عن بياناته أو ممارسة حقوقه المتعلقة بها وفق الأنظمة المعمول بها في دولة الكويت.",
+        refundTitle: "سياسة الاسترجاع",
+        
+        refundSec1Title: "المنتجات الرقمية",
+        refundSec1Text1: "نظرًا لطبيعة المنتجات الرقمية وإمكانية الوصول إلى محتواها بعد التسليم، لا يُعد تغيير الرأي أو عدم ملاءمة المحتوى لتوقعات العميل سببًا لاسترداد المبلغ بعد تسليم المنتج، وذلك دون الإخلال بالحقوق المقررة للمستهلك بموجب القوانين المعمول بها في دولة الكويت.",
+        refundSec1Text2: "في حال وجود خلل في المنتج، أو عدم استلامه، أو تعذر الوصول إليه بسبب مشكلة من جانب DALUNE، يرجى التواصل معنا لمعالجة المشكلة، وفي حال تعذر معالجتها يتم التعامل مع طلب الاسترداد وفقًا للأنظمة المعمول بها.",
+        
+        refundSec2Title: "الخدمات",
+        refundSec2Text: "تخضع طلبات إلغاء الخدمات أو استرداد قيمتها لطبيعة الخدمة ومرحلة تنفيذها والاتفاق المبرم مع العميل، دون الإخلال بحقوق المستهلك المقررة قانونًا.",
+        
+        refundSec3Title: "الدفع المكرر",
+        refundSec3Text: "في حال خصم قيمة الطلب أكثر من مرة نتيجة خطأ تقني، يتم التحقق من العملية وإعادة المبلغ المستحق."
+    
+    
+                    },
+                    en: {
+                        navHome: 'Home',
+                        navBooks: 'Digital products',
+                        navServices: 'Services',
+                        navWhatWeOffer: 'What DALUNE Offers',
+                        
+                        navContact: 'Contact',
+                        heroTitleLine1: "Digital Solutions",
+        heroTitleLine2: "Tailored to Your Needs",
+                       
+                        btnExplore: 'Browse services',
+                        btnContact: 'Contact Us',
+                        cat1Title: 'Digital Books & Products',
+                        cat1Desc: 'Explore our digital books and smart educational resources.',
+                        secOfferTitle: 'What DALUNE Offers?',
+secOfferSubtitle: 'Integrated solutions carefully designed to meet your personal and professional ambitions.',
+                        cat1Badge: "Books",
+        cat1Title: "E-Books & Digital Products",
+        cat1Desc: "Explore our digital books and smart educational resources.",
+        cat1Btn: "View Books →",
+
+        cat2Badge: "Services",
+        cat2Title: "Consulting & Tech Services",
+        cat2Desc: "Technical consultations and computer services tailored to your needs.",
+        cat2Btn: "Explore Services →",
+                        cat3Title: 'Smart Teacher Assistant',
+                        cat3Desc: 'An AI-powered comprehensive kit with tools, templates, and prompts to streamline lesson prep.',
+                       
+                        comingSoonBadge: 'Coming Soon',
+                      
+                        secBooksTitle: 'Digital products',
+                     
+                        secCardsTitle: 'Digital Visual Gallery',
+                        
+                        secContactTitle: 'Connect with Dalune',
+                        contactDesc: 'Whether you have questions about digital products, computer services, or tech consulting, we are here to help.',
+                        btnViewDetails: 'View Details',
+                        btnBuyNow: 'Order via WhatsApp',
+                        btnWhatsApp: 'Inquire via WhatsApp',
+                        rights: 'All rights reserved.',
+                        cat1Badge: 'BOOKS',
+                        cat2Badge: 'SERVICES',
+                        cCard1Title: 'WhatsApp',
+                        cCard1Desc: 'Direct chat for consultations & inquiries.',
+                        cCard1Btn: 'Chat Now',
+                        cCard2Title: 'Instagram Account',
+                        cCard2Desc: 'Follow us to view our showcase.',
+                        cCard2Btn: 'Follow Us',
+                        cCard3Title: 'E-mail',
+                        cCard3Desc: 'For detailed official inquiries.',
+                        cCard3Btn: 'Send Email',
+                        footerAbout: 'A project offering consultations, practical digital products, and computer services tailored to client needs.',
+                        footerNavTitle: 'Quick Links',
+                       
+                        stat1Title: "Practical Digital Products",
+                        stat2Title: "Consultations",
+                        stat3Title: "Selected Computer Services",
+                        brandName: "DALUNE",
+                        btnWhatsAppTooltip: "Chat via WhatsApp",
+                        ctaTitle: 'How can we help you?',
+ctaSubtitle: 'Contact us via WhatsApp to help you choose the best option or process your custom request.',
+btnCtaWhatsapp: 'Contact Us via WhatsApp',
+backToTop: "Back to Top",
+termsTitle: "Terms & Conditions",
+        termsText1: "Welcome to DALUNE. By using this website or purchasing any of our products or services, you agree to the following terms and conditions:",
+        termsText2: "All digital products and displayed content are intended for the buyer's personal use only, unless specified otherwise. Digital products may not be copied, resold, distributed, shared, or republished in whole or in part without prior written permission from DALUNE.",
+        termsText3: "Prices and details specified upon checkout are final for the selected product or service. Customers are responsible for providing accurate information when completing their orders.",
+        termsText4: "Results from using AI-based tools or prompts may vary depending on the tool and inputs provided. Users are advised to review all generated results before adoption.",
+        termsText5: "DALUNE reserves the right to update products, services, or these terms as needed. Modifications apply from the date of publication on the site without affecting prior orders or statutory consumer rights.",
+        termsText6: "All purchases and services provided are subject to the active laws and regulations of the State of Kuwait.",
+
+        // Privacy Policy
+        privacyTitle: "Privacy Policy",
+        privacyText1: "DALUNE respects customer privacy and is committed to protecting personal data, using it strictly as needed to deliver products, services, and operate the website.",
+        privacyText2: "We may collect customer-provided data such as: Name, contact details, and order information.",
+        privacyText3: "Data is used to fulfill orders, communicate with customers, provide support, and improve our services.",
+        privacyText4: "DALUNE does not sell personal data to third parties.",
+        privacyText5: "Certain data may be processed by essential service providers for website operation or payment processing in accordance with applicable regulations.",
+        privacyText6: "We implement appropriate security measures to ensure data confidentiality and protection.",
+        privacyText7: "Customers may contact us to inquire about their personal data or exercise their rights under the laws of the State of Kuwait.",
+        refundTitle: "Refund Policy",
+        
+        refundSec1Title: "Digital Products",
+        refundSec1Text1: "Due to the nature of digital products and immediate access upon delivery, change of mind or content mismatch with expectations does not qualify for a refund once delivered, subject to statutory consumer rights in Kuwait.",
+        refundSec1Text2: "If there is a product defect, non-receipt, or access issue caused by DALUNE, please contact us. If unresolved, refund requests will be handled according to applicable regulations.",
+        
+        refundSec2Title: "Services",
+        refundSec2Text: "Service cancellation or refund requests depend on the nature of the service, execution stage, and client agreement, without prejudice to statutory consumer rights.",
+        
+        refundSec3Title: "Duplicate Charges",
+        refundSec3Text: "If charged more than once due to a technical error, the transaction will be verified and the overcharged amount refunded."
+    
+    
+                    }
+                },
+
+                t(key) {
+                    return this.i18n[this.lang][key] || key;
+                },
+offers: [
+    {
+        id: 1,
+        title: { ar: 'منتجات رقمية', en: 'Digital Products' },
+        desc: { 
+            ar: 'أدوات وقوالب وموارد جاهزة للاستخدام ترفع من إنتاجيتك وتسرع أعمالك.',
+            en: 'Ready-to-use tools, templates, and resources to boost productivity.'
+        }
+    },
+    {
+        id: 2,
+        title: { ar: 'استشارات وخدمات حاسوبية', en: 'Consultations & Tech Services' },
+        desc: { 
+            ar: 'استشارات تقنية وتصاميم مخصصة لتلبية الاحتياجات التقنية الدقيقة.',
+            en: 'Technical consultations and customized designs for specific tech needs.'
+        }
+    },
+    {
+        id: 3,
+        title: { ar: 'حلول مدعومة بالذكاء الاصطناعي', en: 'AI-Powered Solutions' },
+        desc: { 
+            ar: 'نماذج وبرومبتات ذكية لمساعدتك في إنشاء المحتوى والتحضير التعليمي.',
+            en: 'Smart models and prompts to assist with content creation and educational prep.'
+        }
+    }
+],
+                books: [
+                    {
+                        id: 1,
+                        title: { en: 'For Teachers', ar: 'المعلمين' },
+                        shortDesc: { 
+                            en: 'Books, tools, and prompts helping prepare lessons, worksheets, exams, and educational content.', 
+                            ar: 'كتب وأدوات و برومبتات تساعد على إعداد الدروس وأوراق العمل والاختبارات والمحتوى التعليمي.' 
+                        },
+                        fullDesc: { 
+                            en: 'Comprehensive digital toolkit and resources tailored specifically for educators leveraging AI.', 
+                            ar: 'مجموعة أدوات وموارد رقمية شاملة مخصصة للمعلمين للاستفادة القصوى من الذكاء الاصطناعي في التدريس وتصميم الدروس.' 
+                        },
+                        priceAr: '15 د.ك',
+                        priceEn: '15 KWD',
+                        features: {
+                            ar: ['ملف PDF تفاعلي', 'قوالب وأدوات تحضير جاهزة', 'تحديثات مجانية مدى الحياة'],
+                            en: ['Interactive PDF File', 'Ready-to-use lesson templates', 'Lifetime free updates']
+                        },
+                        image: 'images/teachers.jpg'
+                    },
+                    {
+                        id: 2,
+                        title: { en: 'For Students', ar: 'الطلاب' },
+                        shortDesc: { 
+                            en: 'Practical tools helping with study, task organization, and leveraging digital & AI tools.', 
+                            ar: 'أداة عملية تساعد على الدراسة - تنظيم المهام - الاستفادة من الأدوات الرقمية والذكاء الاصطناعي.' 
+                        },
+                        fullDesc: { 
+                            en: 'Interactive guides and digital templates to boost academic productivity and smart learning techniques.', 
+                            ar: 'أدلة تفاعلية ونماذج رقمية لزيادة الإنتاجية الأكاديمية واستخدام أحدث أساليب التعلم الذكي.' 
+                        },
+                        priceAr: '15 د.ك',
+                        priceEn: '15 KWD',
+                        features: {
+                            ar: ['دليل تفاعلي شامل', 'جداول تمارين وتنظيم قابلة للطباعة', 'إرشادات عملية للاستفادة من الذكاء الاصطناعي'],
+                            en: ['Comprehensive Interactive Guide', 'Printable Task & Exercise Trackers', 'Practical AI Productivity Tips']
+                        },
+                        image: 'images/students.jpg'
+                    },
+                    {
+                        id: 3,
+                        title: { en: 'For Business Owners', ar: 'أصحاب المشاريع' },
+                        shortDesc: { 
+                            en: 'Digital books, tools, and templates helping entrepreneurs organize business and build digital presence.', 
+                            ar: 'كتب وادوات ونماذج رقمية تساعد أصحاب المشاريع على تنظيم أعمالهم وبناء حضورهم الرقمي.' 
+                        },
+                        fullDesc: { 
+                            en: 'Essential business assets, prompt guides, and workflow organizers designed for entrepreneurs.', 
+                            ar: 'أصول واستراتيجيات عمل رقمية وقوالب تنظيم مسارات العمل مخصصة لتطوير المشاريع وتنمية حضورها.' 
+                        },
+                        priceAr: '15 د.ك',
+                        priceEn: '15 KWD',
+                        features: {
+                            ar: ['قوالب تخطيط المشاريع', 'دليل صناعة المحتوى الرقمي', 'دعم واستشارات مباشرة'],
+                            en: ['Project Planning Templates', 'Digital Content Creation Guide', 'Direct Support & Guidance']
+                        },
+                        image: 'images/employers.jpg'
+                    }
+                ],
+
+                cards: [
+                    {
+                        id: 1,
+                        title: { en: 'E-Books & AI Resources', ar: 'الكتب الرقمية والذكاء الاصطناعي' },
+                        category: { en: 'E-books', ar: 'الكتب الرقمية' },
+                        desc: { 
+                            en: 'Custom digital books and AI prompts library branded with Dalune.', 
+                            ar: 'كتب رقمية وتصاميم مكتبية وأدوات ذكاء اصطناعي تحمل شعار دالون.' 
+                        },
+                        image: 'images/digitalbooks.png'
+                    },
+                    {
+                        id: 2,
+                        title: { en: 'Designing electronic invitations', ar: 'تصميم دعوات الكترونية' },
+                        category: { en: 'Invitations', ar: 'تصاميم دعوات' },
+                        desc: { 
+                            en: 'Elegant digital invitations designed with soft rose gold and blush hues.', 
+                            ar: 'تصاميم دعوات رقمية أنيقة متناسقة مع هوية دالون بالدرجات الوردي والذهبي.' 
+                        },
+                        image: 'images/carddesigns.jpg'
+                    },
+                    {
+                        id: 3,
+                        title: { en: 'Search Engine & AI Concepts', ar: 'واجهات البحث والذكاء الاصطناعي' },
+                        category: { en: 'AI & Tech', ar: 'ذكاء اصطناعي' },
+                        desc: { 
+                            en: 'Smart search engine concepts and digital tools branded by Dalune.', 
+                            ar: 'مفهوم بصري لمحركات البحث والذكاء الاصطناعي موشومة بشعار دالون.' 
+                        },
+                        image: 'images/AI.jpg'
+                    },
+                    {
+                        id: 4,
+                        title: { en: 'Digital Products Showcase', ar: 'منتجات رقمية واستشارات' },
+                        category: { en: 'Digital Products', ar: 'منتجات رقمية' },
+                        desc: { 
+                            en: 'Curated tech and digital resources showcasing Dalune logo.', 
+                            ar: 'منتجات واستشارات حاسوبية تعرض أغلفة ومجسمات تحمل اسم وشعار Dalune.' 
+                        },
+                        image: 'images/background2.jpg'
+                    }
+                ]
+            }
+        }
+    </script>
+
+</body>
+</html>
